@@ -24,8 +24,8 @@ int main()
 int arr[]={2,5,0,3,0,0,23,0};
 MoveZeros(arr,8);
 PrintArray(arr,8);
+return 0;
 }
-
 
 /*
 =======
