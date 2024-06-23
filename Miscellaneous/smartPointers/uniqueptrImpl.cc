@@ -17,18 +17,18 @@ class uniquePtr
         ptr.resource = nullptr;
     }
     //move assignment
-    uniquePtr& operator=(const uniquePtr<T>&& ptr)
+    uniquePtr<T> operator=(const uniquePtr<T>&& ptr)
     {
         if(this != &ptr)
         {
             if(resource) //if already resource allocated, kindly delete the resouce
             {
-                delete res;
+                delete resource;
             }
             resource = ptr.resource;
-            ptr = nullptr;
+            //ptr = nullptr; this is lvalue
         }
-        return *resource;
+        return resource;
     }
     T* operator->()
     {
@@ -47,7 +47,7 @@ class uniquePtr
     }
     ~uniquePtr()
     {
-        if (resource)
+        if (resource != nullptr)
         {
             delete resource;
             resource = nullptr;
@@ -60,7 +60,7 @@ int main()
     uniquePtr<int>ptr(new int (20));
     uniquePtr<int>ptr1(new int (21));
 
-    uniquePtr<int>p2 = std::move(ptr);
+    uniquePtr<int>p2 = std::move(ptr);  //copy assignment operator
     std::cout<<*p2; // it should points to 20;
 
     p2 = std::move(ptr1);  //p2 value already allocated, reallocated with new
